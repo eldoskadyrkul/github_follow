@@ -23,6 +23,7 @@
     	<div class="col-sm-9">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+                <li><a data-toggle="tab" href="#settings">Settings</a></li>
             </ul>             
           	<div class="tab-content">
           		@foreach ($allInfo as $info)
