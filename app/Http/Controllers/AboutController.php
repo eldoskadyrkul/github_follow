@@ -78,15 +78,38 @@ class AboutController extends Controller
 	    	return back();
 	    }    
 
-    public function groupbyRepo($repo)
+    public function groupbyRepo()
     {
+
+        $followingUser = Follower::where('user_id', '=', Auth::user()->id)
+                                ->join('users', 'users.id', '=', 'follow_id')
+                                ->where('status', 1)
+                                ->get();
+
+        $followersUser = Follower::where('follow_id', '=', Auth::user()->id)
+                                ->join('users', 'users.id', '=', 'user_id')
+                                ->where('status', 1)
+                                ->get();
+
+        $notification = Follower::where('followers.follow_id', '=', Auth::user()->id)
+                                ->join('users', 'users.id', '=', 'followers.user_id')
+                                ->where('status', 0)
+                                ->get();
+
+        $allInfo = InfoPerson::where('follow_id', '=', Auth::user()->id)
+                                ->join('users', 'users.id', '=', 'user_id')
+                                ->join('about_followers', 'about_followers.id', '=', 'info_id')
+                                ->get();
 
     	$select = $request->option('repository');
 
-    	$groupbyRepo = AboutFollowers::groupBy('about_followers.' . $select)
-    								->get();
+    	if (request()->has('repository')) {
+            $users = AboutFollowers::where('repository', request('repository'))->paginate(15);
+        } else {
+            $users = AboutFollowers::paginate(15);
+        }
 
-    	return back();
+    	return view('user.allUsers', compact());
     }
 
     public function showOtherPage(User $user)
