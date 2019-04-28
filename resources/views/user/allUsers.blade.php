@@ -43,7 +43,7 @@
 
 										if(is_null($if_null)) {
 									?>
-										<a href="{{route('following', $user->id)}}" class="btn btn-success btn-block">Follow</a>
+										<a href="{{route('following', $user->id)}}" class="btn btn-success btn-block">Following</a>
 									<?php } else { ?>
 										<a href="{{route('unfollow', $user->id)}}" class="btn btn-success btn-block">Unfollow</a>
 									<?php } ?>
